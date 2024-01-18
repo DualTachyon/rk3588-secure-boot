@@ -21,36 +21,23 @@
 
 #include <stdint.h>
 
-#ifndef REQ_ENUM_EQUALS
-#define REG_ENUM_EQUALS(p, r, b, e)                                              (p##_##r##_GET_##b(p##_##r) == p##_##r##_##b##_VALUE_##e)
-#endif
+#define IOC_PMU2_BASE                                                            0x0FD5F4000U
+#define IOC_PMU2_SIZE                                                            0x000004000U
+#define IOC_PMU2                                                                 ((volatile IOC_PMU2_t *)IOC_PMU2_BASE)
 
-#ifndef REQ_ENUM_BITS
-#define REG_ENUM_BITS(p, r, b, e)                                                (p##_##r##_SET_##b(p##_##r##_##b##_VALUE_##e))
-#endif
+#define IOC_PMU2_ENUM_EQUALS(r, b, e)                                            (IOC_PMU2_##r##_GET_##b(IOC_PMU2->r) == IOC_PMU2_##r##_##b##_VALUE_##e)
+#define IOC_PMU2_ENUM_BITS(r, b, e)                                              (IOC_PMU2_##r##_SET_##b(IOC_PMU2_##r##_##b##_VALUE_##e))
+#define IOC_PMU2_ENUM_BITS_WM(r, b, e)                                           (IOC_PMU2_##r##_SET_##b(IOC_PMU2_##r##_##b##_VALUE_##e) | (IOC_PMU2_##r##_##b##_MASK << 16))
+#define IOC_PMU2_ENUM_BITS_VALUE(r, b, v)                                        (IOC_PMU2_##r##_SET_##b(v))
+#define IOC_PMU2_ENUM_BITS_VALUE_WM(r, b, v)                                     (IOC_PMU2_##r##_SET_##b(v) | (IOC_PMU2_##r##_##b##_MASK << 16))
+#define IOC_PMU2_ENUM_GET(r, b)                                                  (IOC_PMU2_##r##_GET_##b(IOC_PMU2->r))
+#define IOC_PMU2_ENUM_VALUE(r, b, e)                                             (IOC_PMU2_##r##_##b##_VALUE_##e)
 
-#ifndef REQ_ENUM_BITS_WM
-#define REG_ENUM_BITS_WM(p, r, b, e)                                             (p##_##r##_SET_##b(p##_##r##_##b##_VALUE_##e) | (p##_##r##_##b##_MASK << 16))
-#endif
-
-#ifndef REQ_ENUM_GET
-#define REG_ENUM_GET(p, r, b, e)                                                 (p##_##r##_GET_##b(p##_##r))
-#endif
-
-#ifndef REQ_ENUM_VALUE
-#define REG_ENUM_VALUE(p, r, b, e)                                               (p##_##r##_##b##_VALUE_##e)
-#endif
-
-#define IOC_PMU2_BASE                                                            0x0FD5F4000
-#define IOC_PMU2_SIZE                                                            0x000004000
-
-#define IOC_PMU2_GPIO0B_IOMUX_SEL_H_ADDR                                         (IOC_PMU2_BASE + 0x0000)
-#define IOC_PMU2_GPIO0B_IOMUX_SEL_H                                              (*(volatile uint32_t *)IOC_PMU2_GPIO0B_IOMUX_SEL_H_ADDR)
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_SHIFT                            12U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_MASK                             (((1U << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_SHIFT)
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GET_GPIO0B7_SEL(v)                           (((v) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_MASK) >> IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_SHIFT)
-#define IOC_PMU2_GPIO0B_IOMUX_SEL_H_SET_GPIO0B7_SEL(v)                           (((v) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_SHIFT) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_MASK)
+#define IOC_PMU2_GPIO0B_IOMUX_SEL_H_SET_GPIO0B7_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_SHIFT) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_MASK)
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_VALUE_I2S1_LRCK_M1               0x1U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B7_SEL_VALUE_PWM0_M0                    0x3U
@@ -60,7 +47,7 @@
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_MASK                             (((1U << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_SHIFT)
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GET_GPIO0B6_SEL(v)                           (((v) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_MASK) >> IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_SHIFT)
-#define IOC_PMU2_GPIO0B_IOMUX_SEL_H_SET_GPIO0B6_SEL(v)                           (((v) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_SHIFT) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_MASK)
+#define IOC_PMU2_GPIO0B_IOMUX_SEL_H_SET_GPIO0B6_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_SHIFT) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_MASK)
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_VALUE_I2S1_SCLK_M1               0x1U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B6_SEL_VALUE_JTAG_TMS_M2                0x2U
@@ -70,19 +57,17 @@
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_MASK                             (((1U << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_SHIFT)
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GET_GPIO0B5_SEL(v)                           (((v) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_MASK) >> IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_SHIFT)
-#define IOC_PMU2_GPIO0B_IOMUX_SEL_H_SET_GPIO0B5_SEL(v)                           (((v) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_SHIFT) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_MASK)
+#define IOC_PMU2_GPIO0B_IOMUX_SEL_H_SET_GPIO0B5_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_SHIFT) & IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_MASK)
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_VALUE_I2S1_MCLK_M1               0x1U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_VALUE_JTAG_TCK_M2                0x2U
 #define IOC_PMU2_GPIO0B_IOMUX_SEL_H_GPIO0B5_SEL_VALUE_BUS_IOC_GPIO0B_IOMUX_SEL_H 0x8U
 
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_ADDR                                         (IOC_PMU2_BASE + 0x0004)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_L                                              (*(volatile uint32_t *)IOC_PMU2_GPIO0C_IOMUX_SEL_L_ADDR)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_SHIFT                            12U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GET_GPIO0C3_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C3_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C3_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C3_SEL_VALUE_PMIC_SLEEP5                0x1U
 
@@ -90,7 +75,7 @@
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GET_GPIO0C2_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C2_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C2_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C2_SEL_VALUE_PMIC_SLEEP4                0x1U
 
@@ -98,7 +83,7 @@
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GET_GPIO0C1_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C1_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C1_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C1_SEL_VALUE_PMIC_SLEEP3                0x1U
 
@@ -106,19 +91,17 @@
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GET_GPIO0C0_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C0_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_L_SET_GPIO0C0_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_VALUE_PDM0_CLK0_M1               0x2U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_VALUE_PWM1_M0                    0x3U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_L_GPIO0C0_SEL_VALUE_BUS_IOC_GPIO0C_IOMUX_SEL_L 0x8U
 
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_ADDR                                         (IOC_PMU2_BASE + 0x0008)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_H                                              (*(volatile uint32_t *)IOC_PMU2_GPIO0C_IOMUX_SEL_H_ADDR)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_SHIFT                            12U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GET_GPIO0C7_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C7_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C7_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_VALUE_I2S1_SDI2_M1               0x1U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C7_SEL_VALUE_PDM0_SDI0_M1               0x2U
@@ -128,7 +111,7 @@
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GET_GPIO0C6_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C6_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C6_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_VALUE_I2S1_SDI1_M1               0x1U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C6_SEL_VALUE_NPU_AVS                    0x2U
@@ -139,7 +122,7 @@
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GET_GPIO0C5_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C5_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C5_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_VALUE_I2S1_SDI0_M1               0x1U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C5_SEL_VALUE_GPU_AVS                    0x2U
@@ -150,20 +133,18 @@
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_MASK                             (((1U << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_SHIFT)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GET_GPIO0C4_SEL(v)                           (((v) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_MASK) >> IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_SHIFT)
-#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C4_SEL(v)                           (((v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_MASK)
+#define IOC_PMU2_GPIO0C_IOMUX_SEL_H_SET_GPIO0C4_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_SHIFT) & IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_MASK)
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_VALUE_PDM0_CLK1_M1               0x2U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_VALUE_PWM2_M0                    0x3U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_VALUE_UART0_RX_M0                0x4U
 #define IOC_PMU2_GPIO0C_IOMUX_SEL_H_GPIO0C4_SEL_VALUE_BUS_IOC_GPIO0C_IOMUX_SEL_H 0x8U
 
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_ADDR                                         (IOC_PMU2_BASE + 0x000C)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_L                                              (*(volatile uint32_t *)IOC_PMU2_GPIO0D_IOMUX_SEL_L_ADDR)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_SHIFT                            12U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_MASK                             (((1U << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_SHIFT)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GET_GPIO0D3_SEL(v)                           (((v) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_MASK) >> IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_SHIFT)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D3_SEL(v)                           (((v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_MASK)
+#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D3_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_MASK)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_VALUE_LITCPU_AVS                 0x1U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D3_SEL_VALUE_BUS_IOC_GPIO0D_IOMUX_SEL_L 0x8U
@@ -172,7 +153,7 @@
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_MASK                             (((1U << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_SHIFT)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GET_GPIO0D2_SEL(v)                           (((v) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_MASK) >> IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_SHIFT)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D2_SEL(v)                           (((v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_MASK)
+#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D2_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_MASK)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_VALUE_I2S1_SDO1_M1               0x1U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D2_SEL_VALUE_I2C0_SDA_M2                0x3U
@@ -182,7 +163,7 @@
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_MASK                             (((1U << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_SHIFT)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GET_GPIO0D1_SEL(v)                           (((v) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_MASK) >> IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_SHIFT)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D1_SEL(v)                           (((v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_MASK)
+#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D1_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_MASK)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_VALUE_I2S1_SDO0_M1               0x1U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D1_SEL_VALUE_CPU_BIG0_AVS               0x2U
@@ -194,19 +175,17 @@
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_MASK                             (((1U << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_SHIFT)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GET_GPIO0D0_SEL(v)                           (((v) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_MASK) >> IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_SHIFT)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D0_SEL(v)                           (((v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_MASK)
+#define IOC_PMU2_GPIO0D_IOMUX_SEL_L_SET_GPIO0D0_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_MASK)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_VALUE_I2S1_SDI3_M1               0x1U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_VALUE_PDM0_SDI1_M1               0x2U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_L_GPIO0D0_SEL_VALUE_BUS_IOC_GPIO0D_IOMUX_SEL_L 0x8U
 
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_H_ADDR                                         (IOC_PMU2_BASE + 0x0010)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_H                                              (*(volatile uint32_t *)IOC_PMU2_GPIO0D_IOMUX_SEL_H_ADDR)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_SHIFT                            8U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_MASK                             (((1U << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_SHIFT)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GET_GPIO0D6_SEL(v)                           (((v) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_MASK) >> IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_SHIFT)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_H_SET_GPIO0D6_SEL(v)                           (((v) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_MASK)
+#define IOC_PMU2_GPIO0D_IOMUX_SEL_H_SET_GPIO0D6_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_MASK)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_VALUE_PMIC_SLEEP6                0x1U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D6_SEL_VALUE_PDM0_SDI3_M1               0x2U
@@ -215,7 +194,7 @@
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_MASK                             (((1U << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_SHIFT)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GET_GPIO0D5_SEL(v)                           (((v) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_MASK) >> IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_SHIFT)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_H_SET_GPIO0D5_SEL(v)                           (((v) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_MASK)
+#define IOC_PMU2_GPIO0D_IOMUX_SEL_H_SET_GPIO0D5_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_MASK)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_VALUE_I2S1_SDO3_M1               0x1U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D5_SEL_VALUE_CPU_BIG1_AVS               0x2U
@@ -225,20 +204,18 @@
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_WIDTH                            4U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_MASK                             (((1U << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_SHIFT)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GET_GPIO0D4_SEL(v)                           (((v) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_MASK) >> IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_SHIFT)
-#define IOC_PMU2_GPIO0D_IOMUX_SEL_H_SET_GPIO0D4_SEL(v)                           (((v) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_MASK)
+#define IOC_PMU2_GPIO0D_IOMUX_SEL_H_SET_GPIO0D4_SEL(v)                           (((uint32_t)(v) << IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_SHIFT) & IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_MASK)
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_VALUE_GPIO                       0x0U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_VALUE_I2S1_SDO2_M1               0x1U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_VALUE_PDM0_SDI2_M1               0x2U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_VALUE_PWM3_IR_M0                 0x3U
 #define IOC_PMU2_GPIO0D_IOMUX_SEL_H_GPIO0D4_SEL_VALUE_BUS_IOC_GPIO0D_IOMUX_SEL_H 0x8U
 
-#define IOC_PMU2_GPIO0B_DS_H_ADDR                                                (IOC_PMU2_BASE + 0x0014)
-#define IOC_PMU2_GPIO0B_DS_H                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0B_DS_H_ADDR)
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_SHIFT                                    12U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_MASK                                     (((1U << IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_SHIFT)
 #define IOC_PMU2_GPIO0B_DS_H_GET_GPIO0B7_DS(v)                                   (((v) & IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_MASK) >> IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_SHIFT)
-#define IOC_PMU2_GPIO0B_DS_H_SET_GPIO0B7_DS(v)                                   (((v) << IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_SHIFT) & IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_MASK)
+#define IOC_PMU2_GPIO0B_DS_H_SET_GPIO0B7_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_SHIFT) & IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_MASK)
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B7_DS_VALUE_50OHM                              0x2U
@@ -250,7 +227,7 @@
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_MASK                                     (((1U << IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_SHIFT)
 #define IOC_PMU2_GPIO0B_DS_H_GET_GPIO0B6_DS(v)                                   (((v) & IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_MASK) >> IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_SHIFT)
-#define IOC_PMU2_GPIO0B_DS_H_SET_GPIO0B6_DS(v)                                   (((v) << IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_SHIFT) & IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_MASK)
+#define IOC_PMU2_GPIO0B_DS_H_SET_GPIO0B6_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_SHIFT) & IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_MASK)
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B6_DS_VALUE_50OHM                              0x2U
@@ -262,7 +239,7 @@
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_MASK                                     (((1U << IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_SHIFT)
 #define IOC_PMU2_GPIO0B_DS_H_GET_GPIO0B5_DS(v)                                   (((v) & IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_MASK) >> IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_SHIFT)
-#define IOC_PMU2_GPIO0B_DS_H_SET_GPIO0B5_DS(v)                                   (((v) << IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_SHIFT) & IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_MASK)
+#define IOC_PMU2_GPIO0B_DS_H_SET_GPIO0B5_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_SHIFT) & IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_MASK)
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_VALUE_50OHM                              0x2U
@@ -270,13 +247,11 @@
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_VALUE_33OHM                              0x1U
 #define IOC_PMU2_GPIO0B_DS_H_GPIO0B5_DS_VALUE_25OHM                              0x5U
 
-#define IOC_PMU2_GPIO0C_DS_L_ADDR                                                (IOC_PMU2_BASE + 0x0018)
-#define IOC_PMU2_GPIO0C_DS_L                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0C_DS_L_ADDR)
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_SHIFT                                    12U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_L_GET_GPIO0C3_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_MASK) >> IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C3_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C3_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C3_DS_VALUE_50OHM                              0x2U
@@ -288,7 +263,7 @@
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_L_GET_GPIO0C2_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_MASK) >> IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C2_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C2_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C2_DS_VALUE_50OHM                              0x2U
@@ -300,7 +275,7 @@
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_L_GET_GPIO0C1_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_MASK) >> IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C1_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C1_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C1_DS_VALUE_50OHM                              0x2U
@@ -312,7 +287,7 @@
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_L_GET_GPIO0C0_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_MASK) >> IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C0_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_L_SET_GPIO0C0_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_VALUE_50OHM                              0x2U
@@ -320,13 +295,11 @@
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_VALUE_33OHM                              0x1U
 #define IOC_PMU2_GPIO0C_DS_L_GPIO0C0_DS_VALUE_25OHM                              0x5U
 
-#define IOC_PMU2_GPIO0C_DS_H_ADDR                                                (IOC_PMU2_BASE + 0x001C)
-#define IOC_PMU2_GPIO0C_DS_H                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0C_DS_H_ADDR)
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_SHIFT                                    12U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_H_GET_GPIO0C7_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_MASK) >> IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C7_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C7_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C7_DS_VALUE_50OHM                              0x2U
@@ -338,7 +311,7 @@
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_H_GET_GPIO0C6_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_MASK) >> IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C6_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C6_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C6_DS_VALUE_50OHM                              0x2U
@@ -350,7 +323,7 @@
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_H_GET_GPIO0C5_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_MASK) >> IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C5_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C5_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C5_DS_VALUE_50OHM                              0x2U
@@ -362,7 +335,7 @@
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_MASK                                     (((1U << IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_SHIFT)
 #define IOC_PMU2_GPIO0C_DS_H_GET_GPIO0C4_DS(v)                                   (((v) & IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_MASK) >> IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_SHIFT)
-#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C4_DS(v)                                   (((v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_MASK)
+#define IOC_PMU2_GPIO0C_DS_H_SET_GPIO0C4_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_SHIFT) & IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_MASK)
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_VALUE_50OHM                              0x2U
@@ -370,13 +343,11 @@
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_VALUE_33OHM                              0x1U
 #define IOC_PMU2_GPIO0C_DS_H_GPIO0C4_DS_VALUE_25OHM                              0x5U
 
-#define IOC_PMU2_GPIO0D_DS_L_ADDR                                                (IOC_PMU2_BASE + 0x0020)
-#define IOC_PMU2_GPIO0D_DS_L                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0D_DS_L_ADDR)
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_SHIFT                                    12U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_MASK                                     (((1U << IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_SHIFT)
 #define IOC_PMU2_GPIO0D_DS_L_GET_GPIO0D3_DS(v)                                   (((v) & IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_MASK) >> IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_SHIFT)
-#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D3_DS(v)                                   (((v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_MASK)
+#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D3_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_MASK)
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D3_DS_VALUE_50OHM                              0x2U
@@ -388,7 +359,7 @@
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_MASK                                     (((1U << IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_SHIFT)
 #define IOC_PMU2_GPIO0D_DS_L_GET_GPIO0D2_DS(v)                                   (((v) & IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_MASK) >> IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_SHIFT)
-#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D2_DS(v)                                   (((v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_MASK)
+#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D2_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_MASK)
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D2_DS_VALUE_50OHM                              0x2U
@@ -400,7 +371,7 @@
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_MASK                                     (((1U << IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_SHIFT)
 #define IOC_PMU2_GPIO0D_DS_L_GET_GPIO0D1_DS(v)                                   (((v) & IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_MASK) >> IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_SHIFT)
-#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D1_DS(v)                                   (((v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_MASK)
+#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D1_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_MASK)
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D1_DS_VALUE_50OHM                              0x2U
@@ -412,7 +383,7 @@
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_MASK                                     (((1U << IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_SHIFT)
 #define IOC_PMU2_GPIO0D_DS_L_GET_GPIO0D0_DS(v)                                   (((v) & IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_MASK) >> IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_SHIFT)
-#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D0_DS(v)                                   (((v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_MASK)
+#define IOC_PMU2_GPIO0D_DS_L_SET_GPIO0D0_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_MASK)
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_VALUE_50OHM                              0x2U
@@ -420,13 +391,11 @@
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_VALUE_33OHM                              0x1U
 #define IOC_PMU2_GPIO0D_DS_L_GPIO0D0_DS_VALUE_25OHM                              0x5U
 
-#define IOC_PMU2_GPIO0D_DS_H_ADDR                                                (IOC_PMU2_BASE + 0x0024)
-#define IOC_PMU2_GPIO0D_DS_H                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0D_DS_H_ADDR)
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_SHIFT                                    8U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_MASK                                     (((1U << IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_SHIFT)
 #define IOC_PMU2_GPIO0D_DS_H_GET_GPIO0D6_DS(v)                                   (((v) & IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_MASK) >> IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_SHIFT)
-#define IOC_PMU2_GPIO0D_DS_H_SET_GPIO0D6_DS(v)                                   (((v) << IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_MASK)
+#define IOC_PMU2_GPIO0D_DS_H_SET_GPIO0D6_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_MASK)
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D6_DS_VALUE_50OHM                              0x2U
@@ -438,7 +407,7 @@
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_MASK                                     (((1U << IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_SHIFT)
 #define IOC_PMU2_GPIO0D_DS_H_GET_GPIO0D5_DS(v)                                   (((v) & IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_MASK) >> IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_SHIFT)
-#define IOC_PMU2_GPIO0D_DS_H_SET_GPIO0D5_DS(v)                                   (((v) << IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_MASK)
+#define IOC_PMU2_GPIO0D_DS_H_SET_GPIO0D5_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_MASK)
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D5_DS_VALUE_50OHM                              0x2U
@@ -450,7 +419,7 @@
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_WIDTH                                    3U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_MASK                                     (((1U << IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_SHIFT)
 #define IOC_PMU2_GPIO0D_DS_H_GET_GPIO0D4_DS(v)                                   (((v) & IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_MASK) >> IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_SHIFT)
-#define IOC_PMU2_GPIO0D_DS_H_SET_GPIO0D4_DS(v)                                   (((v) << IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_MASK)
+#define IOC_PMU2_GPIO0D_DS_H_SET_GPIO0D4_DS(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_SHIFT) & IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_MASK)
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_VALUE_100OHM                             0x0U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_VALUE_66OHM                              0x4U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_VALUE_50OHM                              0x2U
@@ -458,13 +427,11 @@
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_VALUE_33OHM                              0x1U
 #define IOC_PMU2_GPIO0D_DS_H_GPIO0D4_DS_VALUE_25OHM                              0x5U
 
-#define IOC_PMU2_GPIO0B_P_ADDR                                                   (IOC_PMU2_BASE + 0x0028)
-#define IOC_PMU2_GPIO0B_P                                                        (*(volatile uint32_t *)IOC_PMU2_GPIO0B_P_ADDR)
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PS_SHIFT                                       15U
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PS_MASK                                        (((1U << IOC_PMU2_GPIO0B_P_GPIO0B7_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_P_GPIO0B7_PS_SHIFT)
 #define IOC_PMU2_GPIO0B_P_GET_GPIO0B7_PS(v)                                      (((v) & IOC_PMU2_GPIO0B_P_GPIO0B7_PS_MASK) >> IOC_PMU2_GPIO0B_P_GPIO0B7_PS_SHIFT)
-#define IOC_PMU2_GPIO0B_P_SET_GPIO0B7_PS(v)                                      (((v) << IOC_PMU2_GPIO0B_P_GPIO0B7_PS_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B7_PS_MASK)
+#define IOC_PMU2_GPIO0B_P_SET_GPIO0B7_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0B_P_GPIO0B7_PS_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B7_PS_MASK)
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -472,7 +439,7 @@
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PE_MASK                                        (((1U << IOC_PMU2_GPIO0B_P_GPIO0B7_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0B_P_GPIO0B7_PE_SHIFT)
 #define IOC_PMU2_GPIO0B_P_GET_GPIO0B7_PE(v)                                      (((v) & IOC_PMU2_GPIO0B_P_GPIO0B7_PE_MASK) >> IOC_PMU2_GPIO0B_P_GPIO0B7_PE_SHIFT)
-#define IOC_PMU2_GPIO0B_P_SET_GPIO0B7_PE(v)                                      (((v) << IOC_PMU2_GPIO0B_P_GPIO0B7_PE_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B7_PE_MASK)
+#define IOC_PMU2_GPIO0B_P_SET_GPIO0B7_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0B_P_GPIO0B7_PE_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B7_PE_MASK)
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0B_P_GPIO0B7_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -480,7 +447,7 @@
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PS_MASK                                        (((1U << IOC_PMU2_GPIO0B_P_GPIO0B6_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_P_GPIO0B6_PS_SHIFT)
 #define IOC_PMU2_GPIO0B_P_GET_GPIO0B6_PS(v)                                      (((v) & IOC_PMU2_GPIO0B_P_GPIO0B6_PS_MASK) >> IOC_PMU2_GPIO0B_P_GPIO0B6_PS_SHIFT)
-#define IOC_PMU2_GPIO0B_P_SET_GPIO0B6_PS(v)                                      (((v) << IOC_PMU2_GPIO0B_P_GPIO0B6_PS_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B6_PS_MASK)
+#define IOC_PMU2_GPIO0B_P_SET_GPIO0B6_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0B_P_GPIO0B6_PS_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B6_PS_MASK)
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -488,7 +455,7 @@
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PE_MASK                                        (((1U << IOC_PMU2_GPIO0B_P_GPIO0B6_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0B_P_GPIO0B6_PE_SHIFT)
 #define IOC_PMU2_GPIO0B_P_GET_GPIO0B6_PE(v)                                      (((v) & IOC_PMU2_GPIO0B_P_GPIO0B6_PE_MASK) >> IOC_PMU2_GPIO0B_P_GPIO0B6_PE_SHIFT)
-#define IOC_PMU2_GPIO0B_P_SET_GPIO0B6_PE(v)                                      (((v) << IOC_PMU2_GPIO0B_P_GPIO0B6_PE_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B6_PE_MASK)
+#define IOC_PMU2_GPIO0B_P_SET_GPIO0B6_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0B_P_GPIO0B6_PE_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B6_PE_MASK)
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0B_P_GPIO0B6_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -496,7 +463,7 @@
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PS_MASK                                        (((1U << IOC_PMU2_GPIO0B_P_GPIO0B5_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_P_GPIO0B5_PS_SHIFT)
 #define IOC_PMU2_GPIO0B_P_GET_GPIO0B5_PS(v)                                      (((v) & IOC_PMU2_GPIO0B_P_GPIO0B5_PS_MASK) >> IOC_PMU2_GPIO0B_P_GPIO0B5_PS_SHIFT)
-#define IOC_PMU2_GPIO0B_P_SET_GPIO0B5_PS(v)                                      (((v) << IOC_PMU2_GPIO0B_P_GPIO0B5_PS_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B5_PS_MASK)
+#define IOC_PMU2_GPIO0B_P_SET_GPIO0B5_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0B_P_GPIO0B5_PS_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B5_PS_MASK)
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -504,17 +471,15 @@
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PE_MASK                                        (((1U << IOC_PMU2_GPIO0B_P_GPIO0B5_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0B_P_GPIO0B5_PE_SHIFT)
 #define IOC_PMU2_GPIO0B_P_GET_GPIO0B5_PE(v)                                      (((v) & IOC_PMU2_GPIO0B_P_GPIO0B5_PE_MASK) >> IOC_PMU2_GPIO0B_P_GPIO0B5_PE_SHIFT)
-#define IOC_PMU2_GPIO0B_P_SET_GPIO0B5_PE(v)                                      (((v) << IOC_PMU2_GPIO0B_P_GPIO0B5_PE_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B5_PE_MASK)
+#define IOC_PMU2_GPIO0B_P_SET_GPIO0B5_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0B_P_GPIO0B5_PE_SHIFT) & IOC_PMU2_GPIO0B_P_GPIO0B5_PE_MASK)
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0B_P_GPIO0B5_PE_VALUE_PU_PD_ENABLE                          0x1U
 
-#define IOC_PMU2_GPIO0C_P_ADDR                                                   (IOC_PMU2_BASE + 0x002C)
-#define IOC_PMU2_GPIO0C_P                                                        (*(volatile uint32_t *)IOC_PMU2_GPIO0C_P_ADDR)
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PS_SHIFT                                       15U
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C7_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C7_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C7_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C7_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C7_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C7_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C7_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C7_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C7_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C7_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C7_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -522,7 +487,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C7_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C7_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C7_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C7_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C7_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C7_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C7_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C7_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C7_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C7_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C7_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C7_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -530,7 +495,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C6_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C6_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C6_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C6_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C6_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C6_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C6_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C6_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C6_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C6_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C6_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -538,7 +503,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C6_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C6_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C6_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C6_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C6_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C6_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C6_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C6_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C6_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C6_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C6_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C6_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -546,7 +511,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C5_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C5_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C5_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C5_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C5_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C5_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C5_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C5_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C5_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C5_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C5_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -554,7 +519,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C5_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C5_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C5_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C5_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C5_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C5_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C5_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C5_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C5_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C5_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C5_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C5_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -562,7 +527,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C4_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C4_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C4_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C4_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C4_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C4_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C4_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C4_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C4_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C4_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C4_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -570,7 +535,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C4_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C4_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C4_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C4_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C4_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C4_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C4_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C4_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C4_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C4_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C4_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C4_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -578,7 +543,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C3_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C3_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C3_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C3_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C3_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C3_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C3_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C3_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C3_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C3_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C3_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -586,7 +551,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C3_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C3_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C3_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C3_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C3_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C3_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C3_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C3_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C3_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C3_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C3_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C3_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -594,7 +559,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C2_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C2_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C2_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C2_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C2_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C2_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C2_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C2_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C2_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C2_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C2_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -602,7 +567,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C2_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C2_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C2_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C2_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C2_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C2_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C2_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C2_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C2_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C2_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C2_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C2_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -610,7 +575,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C1_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C1_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C1_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C1_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C1_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C1_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C1_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C1_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C1_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C1_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C1_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -618,7 +583,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C1_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C1_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C1_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C1_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C1_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C1_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C1_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C1_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C1_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C1_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C1_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C1_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -626,7 +591,7 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PS_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C0_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C0_PS_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C0_PS(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C0_PS_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C0_PS_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C0_PS(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C0_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C0_PS_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C0_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C0_PS_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C0_PS_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -634,17 +599,15 @@
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PE_MASK                                        (((1U << IOC_PMU2_GPIO0C_P_GPIO0C0_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_P_GPIO0C0_PE_SHIFT)
 #define IOC_PMU2_GPIO0C_P_GET_GPIO0C0_PE(v)                                      (((v) & IOC_PMU2_GPIO0C_P_GPIO0C0_PE_MASK) >> IOC_PMU2_GPIO0C_P_GPIO0C0_PE_SHIFT)
-#define IOC_PMU2_GPIO0C_P_SET_GPIO0C0_PE(v)                                      (((v) << IOC_PMU2_GPIO0C_P_GPIO0C0_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C0_PE_MASK)
+#define IOC_PMU2_GPIO0C_P_SET_GPIO0C0_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0C_P_GPIO0C0_PE_SHIFT) & IOC_PMU2_GPIO0C_P_GPIO0C0_PE_MASK)
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0C_P_GPIO0C0_PE_VALUE_PU_PD_ENABLE                          0x1U
 
-#define IOC_PMU2_GPIO0D_P_ADDR                                                   (IOC_PMU2_BASE + 0x0030)
-#define IOC_PMU2_GPIO0D_P                                                        (*(volatile uint32_t *)IOC_PMU2_GPIO0D_P_ADDR)
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PS_SHIFT                                       13U
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PS_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D6_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D6_PS_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D6_PS(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D6_PS_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D6_PS_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D6_PS(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D6_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D6_PS_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D6_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D6_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D6_PS_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -652,7 +615,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PE_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D6_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D6_PE_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D6_PE(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D6_PE_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D6_PE_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D6_PE(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D6_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D6_PE_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D6_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D6_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D6_PE_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D6_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -660,7 +623,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PS_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D5_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D5_PS_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D5_PS(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D5_PS_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D5_PS_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D5_PS(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D5_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D5_PS_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D5_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D5_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D5_PS_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -668,7 +631,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PE_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D5_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D5_PE_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D5_PE(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D5_PE_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D5_PE_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D5_PE(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D5_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D5_PE_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D5_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D5_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D5_PE_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D5_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -676,7 +639,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PS_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D4_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D4_PS_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D4_PS(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D4_PS_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D4_PS_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D4_PS(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D4_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D4_PS_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D4_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D4_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D4_PS_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -684,7 +647,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PE_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D4_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D4_PE_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D4_PE(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D4_PE_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D4_PE_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D4_PE(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D4_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D4_PE_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D4_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D4_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D4_PE_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D4_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -692,7 +655,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PS_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D3_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D3_PS_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D3_PS(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D3_PS_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D3_PS_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D3_PS(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D3_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D3_PS_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D3_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D3_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D3_PS_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -700,7 +663,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PE_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D3_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D3_PE_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D3_PE(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D3_PE_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D3_PE_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D3_PE(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D3_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D3_PE_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D3_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D3_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D3_PE_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D3_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -708,7 +671,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PS_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D2_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D2_PS_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D2_PS(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D2_PS_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D2_PS_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D2_PS(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D2_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D2_PS_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D2_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D2_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D2_PS_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -716,7 +679,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PE_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D2_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D2_PE_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D2_PE(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D2_PE_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D2_PE_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D2_PE(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D2_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D2_PE_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D2_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D2_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D2_PE_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D2_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -724,7 +687,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PS_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D1_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D1_PS_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D1_PS(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D1_PS_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D1_PS_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D1_PS(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D1_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D1_PS_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D1_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D1_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D1_PS_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -732,7 +695,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PE_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D1_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D1_PE_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D1_PE(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D1_PE_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D1_PE_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D1_PE(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D1_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D1_PE_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D1_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D1_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D1_PE_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D1_PE_VALUE_PU_PD_ENABLE                          0x1U
 
@@ -740,7 +703,7 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PS_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PS_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D0_PS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D0_PS_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D0_PS(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D0_PS_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D0_PS_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D0_PS(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D0_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D0_PS_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D0_PS(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D0_PS_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D0_PS_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PS_VALUE_PD_SELECTION                          0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PS_VALUE_PU_SELECTION                          0x1U
 
@@ -748,17 +711,15 @@
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PE_WIDTH                                       1U
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PE_MASK                                        (((1U << IOC_PMU2_GPIO0D_P_GPIO0D0_PE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_P_GPIO0D0_PE_SHIFT)
 #define IOC_PMU2_GPIO0D_P_GET_GPIO0D0_PE(v)                                      (((v) & IOC_PMU2_GPIO0D_P_GPIO0D0_PE_MASK) >> IOC_PMU2_GPIO0D_P_GPIO0D0_PE_SHIFT)
-#define IOC_PMU2_GPIO0D_P_SET_GPIO0D0_PE(v)                                      (((v) << IOC_PMU2_GPIO0D_P_GPIO0D0_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D0_PE_MASK)
+#define IOC_PMU2_GPIO0D_P_SET_GPIO0D0_PE(v)                                      (((uint32_t)(v) << IOC_PMU2_GPIO0D_P_GPIO0D0_PE_SHIFT) & IOC_PMU2_GPIO0D_P_GPIO0D0_PE_MASK)
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PE_VALUE_PU_PD_DISABLE                         0x0U
 #define IOC_PMU2_GPIO0D_P_GPIO0D0_PE_VALUE_PU_PD_ENABLE                          0x1U
 
-#define IOC_PMU2_GPIO0B_IE_ADDR                                                  (IOC_PMU2_BASE + 0x0034)
-#define IOC_PMU2_GPIO0B_IE                                                       (*(volatile uint32_t *)IOC_PMU2_GPIO0B_IE_ADDR)
 #define IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_SHIFT                                      7U
 #define IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_MASK                                       (((1U << IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_SHIFT)
 #define IOC_PMU2_GPIO0B_IE_GET_GPIO0B7_IE(v)                                     (((v) & IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_MASK) >> IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_SHIFT)
-#define IOC_PMU2_GPIO0B_IE_SET_GPIO0B7_IE(v)                                     (((v) << IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_SHIFT) & IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_MASK)
+#define IOC_PMU2_GPIO0B_IE_SET_GPIO0B7_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_SHIFT) & IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_MASK)
 #define IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0B_IE_GPIO0B7_IE_VALUE_DISABLE                              0x0U
 
@@ -766,7 +727,7 @@
 #define IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_MASK                                       (((1U << IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_SHIFT)
 #define IOC_PMU2_GPIO0B_IE_GET_GPIO0B6_IE(v)                                     (((v) & IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_MASK) >> IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_SHIFT)
-#define IOC_PMU2_GPIO0B_IE_SET_GPIO0B6_IE(v)                                     (((v) << IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_SHIFT) & IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_MASK)
+#define IOC_PMU2_GPIO0B_IE_SET_GPIO0B6_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_SHIFT) & IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_MASK)
 #define IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0B_IE_GPIO0B6_IE_VALUE_DISABLE                              0x0U
 
@@ -774,17 +735,15 @@
 #define IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_MASK                                       (((1U << IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_SHIFT)
 #define IOC_PMU2_GPIO0B_IE_GET_GPIO0B5_IE(v)                                     (((v) & IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_MASK) >> IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_SHIFT)
-#define IOC_PMU2_GPIO0B_IE_SET_GPIO0B5_IE(v)                                     (((v) << IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_SHIFT) & IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_MASK)
+#define IOC_PMU2_GPIO0B_IE_SET_GPIO0B5_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_SHIFT) & IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_MASK)
 #define IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0B_IE_GPIO0B5_IE_VALUE_DISABLE                              0x0U
 
-#define IOC_PMU2_GPIO0C_IE_ADDR                                                  (IOC_PMU2_BASE + 0x0038)
-#define IOC_PMU2_GPIO0C_IE                                                       (*(volatile uint32_t *)IOC_PMU2_GPIO0C_IE_ADDR)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_SHIFT                                      7U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C7_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C7_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C7_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C7_IE_VALUE_DISABLE                              0x0U
 
@@ -792,7 +751,7 @@
 #define IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C6_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C6_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C6_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C6_IE_VALUE_DISABLE                              0x0U
 
@@ -800,7 +759,7 @@
 #define IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C5_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C5_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C5_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C5_IE_VALUE_DISABLE                              0x0U
 
@@ -808,7 +767,7 @@
 #define IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C4_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C4_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C4_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C4_IE_VALUE_DISABLE                              0x0U
 
@@ -816,7 +775,7 @@
 #define IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C3_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C3_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C3_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C3_IE_VALUE_DISABLE                              0x0U
 
@@ -824,7 +783,7 @@
 #define IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C2_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C2_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C2_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C2_IE_VALUE_DISABLE                              0x0U
 
@@ -832,7 +791,7 @@
 #define IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C1_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C1_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C1_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C1_IE_VALUE_DISABLE                              0x0U
 
@@ -840,17 +799,15 @@
 #define IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_MASK                                       (((1U << IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_SHIFT)
 #define IOC_PMU2_GPIO0C_IE_GET_GPIO0C0_IE(v)                                     (((v) & IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_MASK) >> IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_SHIFT)
-#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C0_IE(v)                                     (((v) << IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_MASK)
+#define IOC_PMU2_GPIO0C_IE_SET_GPIO0C0_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_SHIFT) & IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_MASK)
 #define IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0C_IE_GPIO0C0_IE_VALUE_DISABLE                              0x0U
 
-#define IOC_PMU2_GPIO0D_IE_ADDR                                                  (IOC_PMU2_BASE + 0x003C)
-#define IOC_PMU2_GPIO0D_IE                                                       (*(volatile uint32_t *)IOC_PMU2_GPIO0D_IE_ADDR)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_SHIFT                                      6U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_MASK                                       (((1U << IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_SHIFT)
 #define IOC_PMU2_GPIO0D_IE_GET_GPIO0D6_IE(v)                                     (((v) & IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_MASK) >> IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_SHIFT)
-#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D6_IE(v)                                     (((v) << IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_MASK)
+#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D6_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_MASK)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D6_IE_VALUE_DISABLE                              0x0U
 
@@ -858,7 +815,7 @@
 #define IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_MASK                                       (((1U << IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_SHIFT)
 #define IOC_PMU2_GPIO0D_IE_GET_GPIO0D5_IE(v)                                     (((v) & IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_MASK) >> IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_SHIFT)
-#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D5_IE(v)                                     (((v) << IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_MASK)
+#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D5_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_MASK)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D5_IE_VALUE_DISABLE                              0x0U
 
@@ -866,7 +823,7 @@
 #define IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_MASK                                       (((1U << IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_SHIFT)
 #define IOC_PMU2_GPIO0D_IE_GET_GPIO0D4_IE(v)                                     (((v) & IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_MASK) >> IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_SHIFT)
-#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D4_IE(v)                                     (((v) << IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_MASK)
+#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D4_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_MASK)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D4_IE_VALUE_DISABLE                              0x0U
 
@@ -874,7 +831,7 @@
 #define IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_MASK                                       (((1U << IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_SHIFT)
 #define IOC_PMU2_GPIO0D_IE_GET_GPIO0D3_IE(v)                                     (((v) & IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_MASK) >> IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_SHIFT)
-#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D3_IE(v)                                     (((v) << IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_MASK)
+#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D3_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_MASK)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D3_IE_VALUE_DISABLE                              0x0U
 
@@ -882,7 +839,7 @@
 #define IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_MASK                                       (((1U << IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_SHIFT)
 #define IOC_PMU2_GPIO0D_IE_GET_GPIO0D2_IE(v)                                     (((v) & IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_MASK) >> IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_SHIFT)
-#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D2_IE(v)                                     (((v) << IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_MASK)
+#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D2_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_MASK)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D2_IE_VALUE_DISABLE                              0x0U
 
@@ -890,7 +847,7 @@
 #define IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_MASK                                       (((1U << IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_SHIFT)
 #define IOC_PMU2_GPIO0D_IE_GET_GPIO0D1_IE(v)                                     (((v) & IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_MASK) >> IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_SHIFT)
-#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D1_IE(v)                                     (((v) << IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_MASK)
+#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D1_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_MASK)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D1_IE_VALUE_DISABLE                              0x0U
 
@@ -898,17 +855,15 @@
 #define IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_WIDTH                                      1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_MASK                                       (((1U << IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_WIDTH) - 1U) << IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_SHIFT)
 #define IOC_PMU2_GPIO0D_IE_GET_GPIO0D0_IE(v)                                     (((v) & IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_MASK) >> IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_SHIFT)
-#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D0_IE(v)                                     (((v) << IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_MASK)
+#define IOC_PMU2_GPIO0D_IE_SET_GPIO0D0_IE(v)                                     (((uint32_t)(v) << IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_SHIFT) & IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_MASK)
 #define IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_VALUE_ENABLE                               0x1U
 #define IOC_PMU2_GPIO0D_IE_GPIO0D0_IE_VALUE_DISABLE                              0x0U
 
-#define IOC_PMU2_GPIO0B_SMT_ADDR                                                 (IOC_PMU2_BASE + 0x0040)
-#define IOC_PMU2_GPIO0B_SMT                                                      (*(volatile uint32_t *)IOC_PMU2_GPIO0B_SMT_ADDR)
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_SHIFT                                    7U
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_SHIFT)
 #define IOC_PMU2_GPIO0B_SMT_GET_GPIO0B7_SMT(v)                                   (((v) & IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_MASK) >> IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_SHIFT)
-#define IOC_PMU2_GPIO0B_SMT_SET_GPIO0B7_SMT(v)                                   (((v) << IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_SHIFT) & IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_MASK)
+#define IOC_PMU2_GPIO0B_SMT_SET_GPIO0B7_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_SHIFT) & IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_MASK)
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B7_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -916,7 +871,7 @@
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_SHIFT)
 #define IOC_PMU2_GPIO0B_SMT_GET_GPIO0B6_SMT(v)                                   (((v) & IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_MASK) >> IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_SHIFT)
-#define IOC_PMU2_GPIO0B_SMT_SET_GPIO0B6_SMT(v)                                   (((v) << IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_SHIFT) & IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_MASK)
+#define IOC_PMU2_GPIO0B_SMT_SET_GPIO0B6_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_SHIFT) & IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_MASK)
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B6_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -924,17 +879,15 @@
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_SHIFT)
 #define IOC_PMU2_GPIO0B_SMT_GET_GPIO0B5_SMT(v)                                   (((v) & IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_MASK) >> IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_SHIFT)
-#define IOC_PMU2_GPIO0B_SMT_SET_GPIO0B5_SMT(v)                                   (((v) << IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_SHIFT) & IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_MASK)
+#define IOC_PMU2_GPIO0B_SMT_SET_GPIO0B5_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_SHIFT) & IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_MASK)
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0B_SMT_GPIO0B5_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
-#define IOC_PMU2_GPIO0C_SMT_ADDR                                                 (IOC_PMU2_BASE + 0x0044)
-#define IOC_PMU2_GPIO0C_SMT                                                      (*(volatile uint32_t *)IOC_PMU2_GPIO0C_SMT_ADDR)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_SHIFT                                    7U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C7_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C7_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C7_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C7_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -942,7 +895,7 @@
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C6_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C6_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C6_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C6_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -950,7 +903,7 @@
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C5_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C5_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C5_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C5_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -958,7 +911,7 @@
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C4_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C4_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C4_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C4_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -966,7 +919,7 @@
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C3_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C3_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C3_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C3_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -974,7 +927,7 @@
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C2_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C2_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C2_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C2_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -982,7 +935,7 @@
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C1_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C1_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C1_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C1_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -990,17 +943,15 @@
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_SHIFT)
 #define IOC_PMU2_GPIO0C_SMT_GET_GPIO0C0_SMT(v)                                   (((v) & IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_MASK) >> IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_SHIFT)
-#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C0_SMT(v)                                   (((v) << IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_MASK)
+#define IOC_PMU2_GPIO0C_SMT_SET_GPIO0C0_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_SHIFT) & IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_MASK)
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0C_SMT_GPIO0C0_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
-#define IOC_PMU2_GPIO0D_SMT_ADDR                                                 (IOC_PMU2_BASE + 0x0048)
-#define IOC_PMU2_GPIO0D_SMT                                                      (*(volatile uint32_t *)IOC_PMU2_GPIO0D_SMT_ADDR)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_SHIFT                                    6U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_SHIFT)
 #define IOC_PMU2_GPIO0D_SMT_GET_GPIO0D6_SMT(v)                                   (((v) & IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_MASK) >> IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_SHIFT)
-#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D6_SMT(v)                                   (((v) << IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_MASK)
+#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D6_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_MASK)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D6_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -1008,7 +959,7 @@
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_SHIFT)
 #define IOC_PMU2_GPIO0D_SMT_GET_GPIO0D5_SMT(v)                                   (((v) & IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_MASK) >> IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_SHIFT)
-#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D5_SMT(v)                                   (((v) << IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_MASK)
+#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D5_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_MASK)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D5_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -1016,7 +967,7 @@
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_SHIFT)
 #define IOC_PMU2_GPIO0D_SMT_GET_GPIO0D4_SMT(v)                                   (((v) & IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_MASK) >> IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_SHIFT)
-#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D4_SMT(v)                                   (((v) << IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_MASK)
+#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D4_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_MASK)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D4_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -1024,7 +975,7 @@
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_SHIFT)
 #define IOC_PMU2_GPIO0D_SMT_GET_GPIO0D3_SMT(v)                                   (((v) & IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_MASK) >> IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_SHIFT)
-#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D3_SMT(v)                                   (((v) << IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_MASK)
+#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D3_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_MASK)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D3_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -1032,7 +983,7 @@
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_SHIFT)
 #define IOC_PMU2_GPIO0D_SMT_GET_GPIO0D2_SMT(v)                                   (((v) & IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_MASK) >> IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_SHIFT)
-#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D2_SMT(v)                                   (((v) << IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_MASK)
+#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D2_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_MASK)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D2_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -1040,7 +991,7 @@
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_SHIFT)
 #define IOC_PMU2_GPIO0D_SMT_GET_GPIO0D1_SMT(v)                                   (((v) & IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_MASK) >> IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_SHIFT)
-#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D1_SMT(v)                                   (((v) << IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_MASK)
+#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D1_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_MASK)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D1_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
@@ -1048,141 +999,165 @@
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_WIDTH                                    1U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_MASK                                     (((1U << IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_WIDTH) - 1U) << IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_SHIFT)
 #define IOC_PMU2_GPIO0D_SMT_GET_GPIO0D0_SMT(v)                                   (((v) & IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_MASK) >> IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_SHIFT)
-#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D0_SMT(v)                                   (((v) << IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_MASK)
+#define IOC_PMU2_GPIO0D_SMT_SET_GPIO0D0_SMT(v)                                   (((uint32_t)(v) << IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_SHIFT) & IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_MASK)
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_VALUE_CMOS                               0x0U
 #define IOC_PMU2_GPIO0D_SMT_GPIO0D0_SMT_VALUE_SCHMITT_TRIGGER                    0x1U
 
-#define IOC_PMU2_GPIO0B_PDIS_ADDR                                                (IOC_PMU2_BASE + 0x004C)
-#define IOC_PMU2_GPIO0B_PDIS                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0B_PDIS_ADDR)
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_SHIFT                              7U
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0B_PDIS_GET_GPIO0B7_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_MASK) >> IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0B_PDIS_SET_GPIO0B7_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0B_PDIS_SET_GPIO0B7_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B7_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_SHIFT                              6U
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0B_PDIS_GET_GPIO0B6_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_MASK) >> IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0B_PDIS_SET_GPIO0B6_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0B_PDIS_SET_GPIO0B6_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B6_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_SHIFT                              5U
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0B_PDIS_GET_GPIO0B5_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_MASK) >> IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0B_PDIS_SET_GPIO0B5_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0B_PDIS_SET_GPIO0B5_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0B_PDIS_GPIO0B5_PULL_DIS_VALUE_DISABLE                      0x1U
 
-#define IOC_PMU2_GPIO0C_PDIS_ADDR                                                (IOC_PMU2_BASE + 0x0050)
-#define IOC_PMU2_GPIO0C_PDIS                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0C_PDIS_ADDR)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_SHIFT                              7U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C7_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C7_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C7_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C7_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_SHIFT                              6U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C6_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C6_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C6_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C6_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_SHIFT                              5U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C5_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C5_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C5_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C5_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_SHIFT                              4U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C4_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C4_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C4_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C4_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_SHIFT                              3U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C3_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C3_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C3_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C3_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_SHIFT                              2U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C2_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C2_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C2_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C2_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_SHIFT                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C1_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C1_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C1_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C1_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_SHIFT                              0U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0C_PDIS_GET_GPIO0C0_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_MASK) >> IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C0_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0C_PDIS_SET_GPIO0C0_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0C_PDIS_GPIO0C0_PULL_DIS_VALUE_DISABLE                      0x1U
 
-#define IOC_PMU2_GPIO0D_PDIS_ADDR                                                (IOC_PMU2_BASE + 0x0054)
-#define IOC_PMU2_GPIO0D_PDIS                                                     (*(volatile uint32_t *)IOC_PMU2_GPIO0D_PDIS_ADDR)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_SHIFT                              6U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0D_PDIS_GET_GPIO0D6_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_MASK) >> IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D6_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D6_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D6_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_SHIFT                              5U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0D_PDIS_GET_GPIO0D5_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_MASK) >> IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D5_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D5_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D5_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_SHIFT                              4U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0D_PDIS_GET_GPIO0D4_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_MASK) >> IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D4_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D4_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D4_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_SHIFT                              3U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0D_PDIS_GET_GPIO0D3_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_MASK) >> IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D3_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D3_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D3_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_SHIFT                              2U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0D_PDIS_GET_GPIO0D2_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_MASK) >> IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D2_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D2_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D2_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_SHIFT                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0D_PDIS_GET_GPIO0D1_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_MASK) >> IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D1_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D1_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D1_PULL_DIS_VALUE_DISABLE                      0x1U
 
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_SHIFT                              0U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_WIDTH                              1U
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_MASK                               (((1U << IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_WIDTH) - 1U) << IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_SHIFT)
 #define IOC_PMU2_GPIO0D_PDIS_GET_GPIO0D0_PULL_DIS(v)                             (((v) & IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_MASK) >> IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_SHIFT)
-#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D0_PULL_DIS(v)                             (((v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_MASK)
+#define IOC_PMU2_GPIO0D_PDIS_SET_GPIO0D0_PULL_DIS(v)                             (((uint32_t)(v) << IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_SHIFT) & IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_MASK)
 #define IOC_PMU2_GPIO0D_PDIS_GPIO0D0_PULL_DIS_VALUE_DISABLE                      0x1U
+
+#pragma pack(push)
+#pragma pack(1)
+
+typedef struct {
+	uint32_t GPIO0B_IOMUX_SEL_H;
+	uint32_t GPIO0C_IOMUX_SEL_L;
+	uint32_t GPIO0C_IOMUX_SEL_H;
+	uint32_t GPIO0D_IOMUX_SEL_L;
+	uint32_t GPIO0D_IOMUX_SEL_H;
+	uint32_t GPIO0B_DS_H;
+	uint32_t GPIO0C_DS_L;
+	uint32_t GPIO0C_DS_H;
+	uint32_t GPIO0D_DS_L;
+	uint32_t GPIO0D_DS_H;
+	uint32_t GPIO0B_P;
+	uint32_t GPIO0C_P;
+	uint32_t GPIO0D_P;
+	uint32_t GPIO0B_IE;
+	uint32_t GPIO0C_IE;
+	uint32_t GPIO0D_IE;
+	uint32_t GPIO0B_SMT;
+	uint32_t GPIO0C_SMT;
+	uint32_t GPIO0D_SMT;
+	uint32_t GPIO0B_PDIS;
+	uint32_t GPIO0C_PDIS;
+	uint32_t GPIO0D_PDIS;
+} IOC_PMU2_t;
+
+#pragma pack(pop)
 
 #endif
 

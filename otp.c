@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-#include "hw/otp_s.h"
+#include <otp/otp_s.h>
 #include "printf.h"
 #include "otp.h"
 

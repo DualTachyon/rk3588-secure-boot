@@ -42,11 +42,13 @@ CFLAGS += -fno-builtin
 CFLAGS += -Wno-reserved-macro-identifier
 CFLAGS += -Wno-reserved-identifier
 CFLAGS += -DPRINTF_INCLUDE_CONFIG_H
+CFLAGS += -Ihw
 
 DEPS = $(OBJS:.o=.d)
 
 all: $(TARGET).bin
-	#../rk-tools/rk-packsign --usb --key private.pem -i $(TARGET).bin -o $(TARGET).usb.bin
+
+#../rk-tools/rk-packsign --usb --key private.pem -i $(TARGET).bin -o $(TARGET).usb.bin
 
 %.bin: %.elf
 	$(OBJCOPY) -O binary $< $@

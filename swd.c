@@ -14,8 +14,7 @@
  *     limitations under the License.
  */
 
-#include <stdint.h>
-#include "hw/ioc_bus.h"
+#include <grf/ioc_bus.h>
 #include "swd.h"
 
 void dtSwdInit(void)
@@ -23,9 +22,9 @@ void dtSwdInit(void)
 	// Depending on boot mode, SWD will be muxed out if the MicroSD port was initialised, even if not booted from.
 	// Skip if MicroSD was the boot mode.
 	if (*(volatile uint32_t *)0xFF000010 != 5) {
-		IOC_BUS_GPIO4D_IOMUX_SEL_L = 0
-			| REG_ENUM_BITS_WM(IOC_BUS, GPIO4D_IOMUX_SEL_L, GPIO4D2_SEL, JTAG_TCK_M0)
-			| REG_ENUM_BITS_WM(IOC_BUS, GPIO4D_IOMUX_SEL_L, GPIO4D3_SEL, JTAG_TMS_M0);
+		IOC_BUS->GPIO4D_IOMUX_SEL_L = 0
+			| IOC_BUS_ENUM_BITS_WM(GPIO4D_IOMUX_SEL_L, GPIO4D2_SEL, JTAG_TCK_M0)
+			| IOC_BUS_ENUM_BITS_WM(GPIO4D_IOMUX_SEL_L, GPIO4D3_SEL, JTAG_TMS_M0);
 	}
 }
 
