@@ -147,6 +147,8 @@ $ make
 $ ./rkdeveloptool db ../rk3588-secure-boot/enable-sb.usb.bin
 ```
 
+You may see that rkdeveloptool will print an error and that the download failed. For this binary only, this is normal and you should look at the UART to determine whether you were successful or not.
+
 - At this point, you should pay close attention to the UART output and follow any instructions given in it.
 
 - Secure boot is enabled in 3 stages:
