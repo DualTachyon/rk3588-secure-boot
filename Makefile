@@ -48,8 +48,6 @@ DEPS = $(OBJS:.o=.d)
 
 all: $(TARGET).bin
 
-#../rk-tools/rk-packsign --usb --key private.pem -i $(TARGET).bin -o $(TARGET).usb.bin
-
 %.bin: %.elf
 	$(OBJCOPY) -O binary $< $@
 
@@ -65,5 +63,5 @@ $(TARGET).elf: $(OBJS)
 -include $(DEPS)
 
 clean:
-	$(RM) $(TARGET).usb.bin $(TARGET).bin $(TARGET).elf $(OBJS) $(DEPS)
+	$(RM) $(TARGET).bin $(TARGET).elf $(OBJS) $(DEPS)
 

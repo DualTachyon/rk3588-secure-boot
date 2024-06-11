@@ -130,24 +130,21 @@ aarch64-linux-gnu-ld entry.o main.o exceptions.o libc.o otp.o printf.o putchar.o
 aarch64-linux-gnu-objcopy -O binary enable-sb.elf enable-sb.bin
 ```
 
-- Pack the bootloader for USB
+- Pack the bootloader for uploading
 
 ```
 $ cd secboot
 $ cd rk3588-secure-boot
-$ ../rk3588-tools/rk-packsign --usb -i enable-sb.bin -o enable-sb.usb.bin
+$ ../rk3588-tools/rk-packsign --rkss --471 enable-sb.bin -o enable-sb.packed.bin
 ```
 
 - Run the bootloader. Ensure your RK3588 device is in "MaskROM" boot mode, otherwise it will not work.
 
 ```
 $ cd secboot
-$ cd rkdeveloptool
-$ make
-$ ./rkdeveloptool db ../rk3588-secure-boot/enable-sb.usb.bin
+$ cd rk3588-secure-boot
+$ ../rk3588-tools/rk-usb ../rk3588-secure-boot/enable-sb.packed.bin
 ```
-
-You may see that rkdeveloptool will print an error and that the download failed. For this binary only, this is normal and you should look at the UART to determine whether you were successful or not.
 
 - At this point, you should pay close attention to the UART output and follow any instructions given in it.
 
@@ -162,7 +159,9 @@ You may see that rkdeveloptool will print an error and that the download failed.
 ```
 $ cd secboot
 $ cd rk3588-secure-boot
-$ ../rk3588-tools/rk-packsign --usb -i enable-sb.bin -o enable-sb.usb.bin --key ../keys/private_key.pem
+$ ../rk3588-tools/rk-packsign --rkss --471 enable-sb.bin -o enable-sb.signed.bin --key ../keys/private_key.pem
+# Ensure your RK3588 is in "MaskROM" boot mode again.
+$ ../rk3588-tools/rk-usb ../rk3588-secure-boot/enable-sb.signed.bin
 ```
 
 If Secure Boot was enabled successfully, you should see the following output:
