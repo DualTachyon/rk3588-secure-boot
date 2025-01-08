@@ -33,6 +33,8 @@ CFLAGS = -c -O2 -Wall -Werror -std=c11 -MMD
 ifeq ($(USE_CLANG),1)
 CFLAGS += -Weverything
 CFLAGS += -mno-unaligned-access
+# Clang is being overzealous and plain wrong with the one below...
+CFLAGS += -Wno-unsafe-buffer-usage
 endif
 CFLAGS += -U_FORTIFY_SOURCE
 CFLAGS += -mgeneral-regs-only
